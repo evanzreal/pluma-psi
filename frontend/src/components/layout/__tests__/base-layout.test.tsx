@@ -33,6 +33,6 @@ describe('BaseLayout', () => {
     // Verifica se a classe flex está aplicada ao elemento principal
     const mainElement = screen.getByRole('main')
     expect(mainElement).toHaveClass('flex-1')
-    expect(mainElement).toHaveClass('p-6')
+    expect(mainElement).toHaveClass('p-8')
   })
 }) 

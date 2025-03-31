@@ -10,6 +10,13 @@ jest.mock('next/image', () => ({
   },
 }))
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+  usePathname: () => '/',
+}))
+
 jest.mock('@clerk/nextjs', () => ({
   SignedIn: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   SignedOut: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -20,10 +27,8 @@ describe('Sidebar', () => {
   it('renderiza com todos os itens de menu', () => {
     render(<Sidebar />)
     
-    // Verifica se o logo está presente
-    expect(screen.getByText('Pluma PSI')).toBeInTheDocument()
-    
     // Verifica os itens do menu principal
+    expect(screen.getByText('Menu')).toBeInTheDocument()
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
     expect(screen.getByText('Pacientes')).toBeInTheDocument()
     expect(screen.getByText('Agenda')).toBeInTheDocument()

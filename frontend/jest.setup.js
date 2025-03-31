@@ -16,14 +16,19 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => ({
     get: jest.fn(),
   }),
+  usePathname: () => '/',
 }));
 
-// Mock do navigator.clipboard
-Object.defineProperty(window.navigator, 'clipboard', {
-  value: {
-    writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-  },
-});
+// Mock do navigator.clipboard global
+if (!window.navigator.clipboard) {
+  Object.defineProperty(window.navigator, 'clipboard', {
+    value: {
+      writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+    },
+    writable: true,
+    configurable: true
+  });
+}
 
 // Removendo os warnings do console durante os testes
 jest.spyOn(console, 'warn').mockImplementation(() => {});
