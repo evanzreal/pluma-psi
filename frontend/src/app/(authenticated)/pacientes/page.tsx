@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PlusCircle, Copy, Check, X, Search } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 // Função para gerar código fictício
 const generateFakeCode = () => {
@@ -111,6 +112,7 @@ export default function PacientesPage() {
   const [showCode, setShowCode] = useState<{id: number, show: boolean}>({id: 0, show: false})
   const [copied, setCopied] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const router = useRouter()
   
   // Função para lidar com a cópia do código
   const handleCopyCode = (code: string) => {
@@ -124,6 +126,11 @@ export default function PacientesPage() {
     patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     patient.email.toLowerCase().includes(searchQuery.toLowerCase())
   )
+  
+  // Função para navegar para a página do paciente
+  const navigateToPatient = (patientId: number) => {
+    router.push(`/pacientes/${patientId}`)
+  }
   
   // Renderização do modal de criação de paciente
   const renderModal = () => {
@@ -243,7 +250,11 @@ export default function PacientesPage() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredActivePatients.map(patient => (
-              <div key={patient.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div 
+                key={patient.id} 
+                className="border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:scale-105 cursor-pointer"
+                onClick={() => navigateToPatient(patient.id)}
+              >
                 <div className="flex space-x-3 mb-3">
                   <div className="relative h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-lg font-semibold text-primary overflow-hidden">
                     {patient.name.charAt(0)}
@@ -271,7 +282,10 @@ export default function PacientesPage() {
                   <div>
                     <div 
                       className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 flex items-center"
-                      onClick={() => setShowCode({id: patient.id, show: !showCode.show || showCode.id !== patient.id})}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Impede que o clique propague para o card
+                        setShowCode({id: patient.id, show: !showCode.show || showCode.id !== patient.id})
+                      }}
                     >
                       {showCode.id === patient.id && showCode.show ? "Ocultar código" : "Ver código de conexão"}
                     </div>
@@ -280,7 +294,10 @@ export default function PacientesPage() {
                       <div className="mt-2 flex items-center space-x-1">
                         <span className="text-sm font-mono bg-gray-100 px-2 py-1 rounded">{patient.code}</span>
                         <button 
-                          onClick={() => handleCopyCode(patient.code)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Impede que o clique propague para o card
+                            handleCopyCode(patient.code)
+                          }}
                           className="text-gray-500 hover:text-gray-700"
                         >
                           {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
@@ -289,7 +306,13 @@ export default function PacientesPage() {
                     )}
                   </div>
                   
-                  <button className="text-sm text-blue-600 hover:text-blue-800">
+                  <button 
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Impede que o clique propague para o card
+                      navigateToPatient(patient.id)
+                    }}
+                  >
                     Detalhes
                   </button>
                 </div>
