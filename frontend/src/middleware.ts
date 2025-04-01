@@ -1,14 +1,13 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { authMiddleware } from "@clerk/nextjs";
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
-export function middleware(request: NextRequest) {
-  // Por enquanto, apenas passamos a requisição sem autenticação
-  return NextResponse.next();
-}
+export default authMiddleware({
+  // Rotas que estarão acessíveis para usuários não autenticados
+  publicRoutes: ["/", "/sign-in", "/sign-up"],
+  
+  // Rotas que ignoram completamente o middleware (geralmente para API ou imagens estáticas)
+  ignoredRoutes: ["/api/public", "/_next/static", "/favicon.ico"],
+});
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 }; 
