@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Copy, Check } from "lucide-react"
+import Image from "next/image"
 
 // Definindo a interface para os dados do paciente
 export interface PacienteData {
@@ -26,6 +27,7 @@ export function PacienteCard({ paciente }: PacienteCardProps) {
   const router = useRouter()
   const [showCode, setShowCode] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [useGeneratedAvatar, setUseGeneratedAvatar] = useState(!paciente.avatar)
   
   // Função para navegar para a página do paciente
   const navigateToPatient = () => {
@@ -46,15 +48,47 @@ export function PacienteCard({ paciente }: PacienteCardProps) {
     setShowCode(prev => !prev)
   }
 
+  // Gerar URL do avatar baseado no nome do paciente
+  const getAvatarUrl = () => {
+    const name = encodeURIComponent(paciente.name);
+    // Usando cores que combinam com o design da aplicação
+    const backgroundColor = '4F46E5'; // Azul indigo
+    const foregroundColor = 'FFFFFF'; // Branco
+    return `https://ui-avatars.com/api/?name=${name}&background=${backgroundColor}&color=${foregroundColor}&size=200`;
+  };
+
+  // Verificar se o avatar existe quando o componente montar
+  useEffect(() => {
+    // Se não tiver avatar, use o gerado
+    if (!paciente.avatar) {
+      setUseGeneratedAvatar(true);
+      return;
+    }
+
+    // Se tiver avatar, verifique se a URL é válida
+    // Se for uma URL relativa simples (começando com /avatars), considere inválida
+    if (paciente.avatar.startsWith('/avatars/') || paciente.avatar.startsWith('avatars/')) {
+      setUseGeneratedAvatar(true);
+      return;
+    }
+
+    // Para outros casos, sempre use o avatar gerado para evitar problemas
+    setUseGeneratedAvatar(true);
+  }, [paciente.avatar]);
+
   return (
     <div 
       className="border rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:scale-105 cursor-pointer"
       onClick={navigateToPatient}
     >
       <div className="flex space-x-3 mb-3">
-        <div className="relative h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-lg font-semibold text-primary overflow-hidden">
-          {paciente.name.charAt(0)}
-          {paciente.avatar && <img src={paciente.avatar} alt={paciente.name} className="h-full w-full object-cover" />}
+        <div className="relative h-12 w-12 rounded-full overflow-hidden">
+          <img
+            src={useGeneratedAvatar ? getAvatarUrl() : paciente.avatar}
+            alt={paciente.name}
+            className="h-full w-full object-cover"
+            onError={() => setUseGeneratedAvatar(true)}
+          />
         </div>
         <div>
           <h3 className="font-semibold text-base">{paciente.name}</h3>

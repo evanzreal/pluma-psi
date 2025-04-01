@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { 
-  BarChart3, 
   Users, 
   Calendar, 
   Settings, 
@@ -11,16 +10,11 @@ import {
   LogOut
 } from "lucide-react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { UserButton, useUser, useClerk } from "@clerk/nextjs"
 import { useState } from "react"
 
 const mainMenuItems = [
-  {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: BarChart3
-  },
   {
     title: "Pacientes",
     href: "/pacientes",
@@ -46,13 +40,14 @@ const profileMenuItems = [
   }
 ]
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  // Props específicas para Sidebar, se houver
+}
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, ...props }: SidebarProps) {
   const pathname = usePathname()
   const { user } = useUser()
   const { signOut } = useClerk()
-  const router = useRouter()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   const handleSignOut = async () => {
@@ -73,7 +68,7 @@ export function Sidebar({ className }: SidebarProps) {
   }
 
   return (
-    <div className={cn("pb-12 min-h-screen flex flex-col", className)}>
+    <div className={cn("pb-12 min-h-screen flex flex-col", className)} {...props}>
       <div className="space-y-4 py-4 flex-1">
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-lg font-semibold">Menu</h2>

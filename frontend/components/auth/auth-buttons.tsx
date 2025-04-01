@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link"
-import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs"
+import { UserButton, SignedIn } from "@clerk/nextjs"
 
 export function AuthButtons() {
   return (
