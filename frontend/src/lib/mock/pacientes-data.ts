@@ -11,7 +11,6 @@ export const activePatientsData: PacienteData[] = [
     lastSession: "10/05/2024",
     nextSession: "17/05/2024",
     status: "Ativo",
-    avatar: "/avatars/ana.jpg",
     code: "PSI-45678",
     notes: "Paciente com ansiedade leve, demonstrando progresso"
   },
@@ -23,7 +22,6 @@ export const activePatientsData: PacienteData[] = [
     lastSession: "09/05/2024",
     nextSession: "16/05/2024",
     status: "Ativo",
-    avatar: "/avatars/carlos.jpg",
     code: "PSI-56789",
     notes: "Iniciou tratamento recentemente"
   },
@@ -35,7 +33,6 @@ export const activePatientsData: PacienteData[] = [
     lastSession: "08/05/2024",
     nextSession: "15/05/2024",
     status: "Ativo",
-    avatar: "/avatars/maria.jpg",
     code: "PSI-67890",
     notes: "Apresenta sintomas de depressão, em acompanhamento constante"
   },
@@ -47,7 +44,6 @@ export const activePatientsData: PacienteData[] = [
     lastSession: "07/05/2024",
     nextSession: "14/05/2024",
     status: "Ativo",
-    avatar: "/avatars/joao.jpg",
     code: "PSI-78901",
     notes: "Paciente há 2 anos, boa evolução"
   },
@@ -59,7 +55,6 @@ export const activePatientsData: PacienteData[] = [
     lastSession: "06/05/2024",
     nextSession: "13/05/2024",
     status: "Ativo",
-    avatar: "/avatars/paula.jpg",
     code: "PSI-89012",
     notes: "Terapia familiar, junto com filhos"
   },
@@ -74,8 +69,7 @@ export const inactivePatientsData: PacienteInativoData[] = [
     phone: "(61) 94321-0987", 
     lastSession: "10/03/2024",
     status: "Inativo",
-    reason: "Tratamento concluído",
-    avatar: "/avatars/roberto.jpg"
+    reason: "Tratamento concluído"
   },
   { 
     id: 7, 
@@ -84,8 +78,7 @@ export const inactivePatientsData: PacienteInativoData[] = [
     phone: "(71) 93210-9876", 
     lastSession: "15/02/2024",
     status: "Inativo",
-    reason: "Mudou de cidade",
-    avatar: "/avatars/fernanda.jpg"
+    reason: "Mudou de cidade"
   },
 ]
 
@@ -102,7 +95,6 @@ export const patientDetailsData = [
     lastSession: "10/05/2024",
     nextSession: "17/05/2024",
     status: "Ativo",
-    avatar: "/avatars/ana.jpg",
     code: "PSI-45678",
     notes: "Paciente com ansiedade leve, demonstrando progresso",
     sessions: [
@@ -129,7 +121,6 @@ export const patientDetailsData = [
     lastSession: "09/05/2024",
     nextSession: "16/05/2024",
     status: "Ativo",
-    avatar: "/avatars/carlos.jpg",
     code: "PSI-56789",
     notes: "Iniciou tratamento recentemente",
     sessions: [
@@ -153,7 +144,6 @@ export const patientDetailsData = [
     lastSession: "08/05/2024",
     nextSession: "15/05/2024",
     status: "Ativo",
-    avatar: "/avatars/maria.jpg",
     code: "PSI-67890",
     notes: "Apresenta sintomas de depressão, em acompanhamento constante",
     sessions: [
@@ -179,7 +169,6 @@ export const patientDetailsData = [
     lastSession: "07/05/2024",
     nextSession: "14/05/2024",
     status: "Ativo",
-    avatar: "/avatars/joao.jpg",
     code: "PSI-78901",
     notes: "Paciente há 2 anos, boa evolução",
     sessions: [
@@ -204,7 +193,6 @@ export const patientDetailsData = [
     lastSession: "06/05/2024",
     nextSession: "13/05/2024",
     status: "Ativo",
-    avatar: "/avatars/paula.jpg",
     code: "PSI-89012",
     notes: "Terapia familiar, junto com filhos",
     sessions: [
