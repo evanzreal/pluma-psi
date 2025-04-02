@@ -16,9 +16,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Obtém os cabeçalhos de assinatura webhook corretamente
-  const svix_id = headers().get("svix-id");
-  const svix_timestamp = headers().get("svix-timestamp");
-  const svix_signature = headers().get("svix-signature");
+  const headersList = headers();
+  const svix_id = headersList.get("svix-id");
+  const svix_timestamp = headersList.get("svix-timestamp");
+  const svix_signature = headersList.get("svix-signature");
 
   // Se algum cabeçalho necessário estiver faltando, retorna erro
   if (!svix_id || !svix_timestamp || !svix_signature) {
@@ -52,6 +53,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  console.log("Evento recebido:", evt.type, "User ID:", evt.data.id);
+
   // Conecta ao Supabase admin
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -70,6 +73,8 @@ export async function POST(req: NextRequest) {
         ? `${first_name} ${last_name}` 
         : first_name || "";
 
+      console.log(`Processando usuário: ${id}, ${email}, ${fullName}`);
+
       // Busca usuário existente
       const { data: existingUser } = await supabase
         .from("users")
@@ -87,13 +92,21 @@ export async function POST(req: NextRequest) {
             updated_at: new Date().toISOString(),
           })
           .eq("clerk_id", id);
+          
+        console.log(`Usuário atualizado: ${id}`);
       } else {
         // Cria novo usuário
-        await supabase.from("users").insert({
+        const { data, error } = await supabase.from("users").insert({
           clerk_id: id,
           email,
           name: fullName,
         });
+        
+        if (error) {
+          console.error("Erro ao criar usuário:", error);
+        } else {
+          console.log(`Novo usuário criado: ${id}`);
+        }
       }
     } else if (eventType === "user.deleted") {
       // Opcionalmente, marque o usuário como inativo ou remova completamente
@@ -108,6 +121,8 @@ export async function POST(req: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("clerk_id", id);
+        
+      console.log(`Usuário marcado como removido: ${id}`);
     }
 
     return NextResponse.json({ success: true });
