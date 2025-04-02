@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { SmartAvatar, AvatarRoot as Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -50,12 +50,11 @@ export function InfoTab({ patient, onSave }: InfoTabProps) {
     <div className="space-y-6">
       <div className="flex justify-between items-start">
         <div className="flex items-center gap-4">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={patient.avatar || ""} />
-            <AvatarFallback className="text-2xl">
-              {patient.name.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
+          <SmartAvatar 
+            name={patient.name}
+            avatarUrl={patient.avatar}
+            className="h-24 w-24"
+          />
           <div>
             <h2 className="text-2xl font-bold">{patient.name}</h2>
             <p className="text-sm text-muted-foreground">Código: {patient.code}</p>
