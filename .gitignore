@@ -34,4 +34,6 @@ yarn-error.log*
 .cursor/
 
 # Local environment files
-.env* 
+.env* logs/
+ngrok
+ngrok-v3-stable-darwin-amd64.zip
