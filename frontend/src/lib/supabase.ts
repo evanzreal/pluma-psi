@@ -163,16 +163,18 @@ export function createServerSupabaseClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_KEY!,
     {
-      auth: {
-        // Obtém o token JWT do Clerk
-        async persistSession: false,
-        autoRefreshToken: false,
-        detectSessionInUrl: false,
-        accessToken: async () => await getToken({ template: 'supabase' })
-      },
       global: {
         headers: {
           'x-my-custom-header': 'Pluma App'
+        }
+      },
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+        // Usa o Clerk sem depender de JWT template
+        async accessToken() {
+          return await getToken();
         }
       }
     }
@@ -192,7 +194,8 @@ export function createClientSupabaseClient(getToken: () => Promise<string | null
         persistSession: false,
         autoRefreshToken: false,
         detectSessionInUrl: false,
-        accessToken: async () => await getToken()
+        // Usa o Clerk sem depender de JWT template
+        accessToken: getToken
       }
     }
   );

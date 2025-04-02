@@ -19,7 +19,7 @@ export function useSupabase() {
     // Função para obter token do Clerk
     async function getToken() {
       try {
-        return session ? await session.getToken({ template: 'supabase' }) : null;
+        return session ? await session.getToken() : null;
       } catch (error) {
         console.error('Erro ao obter token do Clerk:', error);
         return null;
