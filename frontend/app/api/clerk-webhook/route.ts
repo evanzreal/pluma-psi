@@ -15,11 +15,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Obtém os cabeçalhos de assinatura webhook corretamente
+  // Obtenha os cabeçalhos do webhook usando a API correta
+  // A solução correta é obter todos os valores de uma vez
   const headersList = headers();
-  const svix_id = headersList.get("svix-id");
-  const svix_timestamp = headersList.get("svix-timestamp");
-  const svix_signature = headersList.get("svix-signature");
+  // Extrair os cabeçalhos de uma só vez previne os erros
+  const svix_id = headersList.get("svix-id") || "";
+  const svix_timestamp = headersList.get("svix-timestamp") || "";
+  const svix_signature = headersList.get("svix-signature") || "";
 
   // Se algum cabeçalho necessário estiver faltando, retorna erro
   if (!svix_id || !svix_timestamp || !svix_signature) {
