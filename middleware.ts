@@ -3,8 +3,8 @@ import type { NextRequest } from 'next/server';
 
 // Esta função substitui o authMiddleware do Clerk quando há problemas de compatibilidade
 export function middleware(request: NextRequest) {
-  const publicRoutes = ["/", "/login", "/registro"];
-  const ignoredRoutes = ["/api/public", "/_next/static", "/favicon.ico"];
+  const publicRoutes = ["/", "/login", "/registro", "/sign-in", "/sign-up"];
+  const ignoredRoutes = ["/api/public", "/_next/static", "/favicon.ico", "/api/clerk-webhook"];
   
   // Verificar se é uma rota ignorada
   if (ignoredRoutes.some(route => request.nextUrl.pathname.startsWith(route))) {
